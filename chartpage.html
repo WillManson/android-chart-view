@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+
+		<title>
+			Google Visualization API Sample
+		</title>
+
+		<style type='text/css'>
+			body, html, div {
+				margin: 0;
+				padding: 0;
+			}
+
+			div {
+				float: left;
+			}
+		</style>
+
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script type="text/javascript">
+			google.load('visualization', '1', {packages: ['corechart', 'geochart']});
+		</script>
+		<script type="text/javascript">
+			var calledBack = false;
+
+ 			function drawVisualization(chartType, targetID, columns, rows, options) {
+				if(!calledBack) {
+					setTimeout(function() { drawVisualization(chartType, targetID, columns, rows, options); }, 1200);
+				}
+				else {
+					if(chartType == "areachart") { drawAreaChart(targetID, columns, rows, options); }
+					else if(chartType == "linechart") { drawLineChart(targetID, columns, rows, options); }
+					else if(chartType == "barchart") { drawBarChart(targetID, columns, rows, options); }
+					else if(chartType == "piechart") { drawPieChart(targetID, columns, rows, options); }
+					else if(chartType == "columnchart") { drawColumnChart(targetID, columns, rows, options); }
+					else if(chartType == "intensitymap") { drawIntensityMap(targetID, columns, rows, options); }
+					else if(chartType == "scatterchart") { drawScatterChart(targetID, columns, rows, options); }
+					else if(chartType == "sparkline") { drawSparkLine(targetID, columns, rows, options); }
+					else if(chartType == "geochart") { drawGeoChart(targetID, columns, rows, options); }
+				}
+			}
+
+			function insertNewDivs(divNames) {
+				var bodyElement = document.getElementById('graphs');
+				bodyElement.innerHTML = "";
+				for(nameNumber in divNames) {
+					bodyElement.innerHTML += "<div id='" + divNames[nameNumber] + "'></div>";
+				}
+			}
+
+			function drawGeoChart(targetID, columns, rows, options) {
+				var data = google.visualization.arrayToDataTable(columns.concat(rows));
+
+				var container = document.getElementById(targetID);
+				var geomap = new google.visualization.GeoChart(container);
+				geomap.draw(data, options);
+			}
+
+			function drawSparkLine(targetID, columns, rows, options) {
+				var data = google.visualization.arrayToDataTable(columns.concat(rows));
+
+				var container = document.getElementById(targetID);
+				var sparkline = new google.visualization.SparklineChart(container);
+				sparkline.draw(data, options);
+			}
+
+			function drawAreaChart(targetID, columns, rows, options) {
+				data = getData(columns, rows);
+
+				var container = document.getElementById(targetID);
+				var areachart = new google.visualization.AreaChart(container);
+				areachart.draw(data, options);
+			}
+
+			function drawLineChart(targetID, columns, rows, options) {
+				data = getData(columns, rows);
+
+				var container = document.getElementById(targetID);
+				var linechart = new google.visualization.LineChart(container);
+				linechart.draw(data, options);
+			}
+
+			function drawBarChart(targetID, columns, rows, options) {
+				data = getData(columns, rows);
+
+				var container = document.getElementById(targetID);
+				var barchart = new google.visualization.BarChart(container);
+				barchart.draw(data, options);
+			}
+
+			function drawPieChart(targetID, columns, rows, options) {
+				data = getData(columns, rows);
+
+				var container = document.getElementById(targetID);
+				var piechart = new google.visualization.PieChart(container);
+				piechart.draw(data, options);
+			}
+
+			function drawColumnChart(targetID, columns, rows, options) {
+				data = getData(columns, rows);
+
+				var container = document.getElementById(targetID);
+				var columnchart = new google.visualization.ColumnChart(container);
+				columnchart.draw(data, options);
+			}
+
+			function drawIntensityMap(targetID, columns, rows, options) {
+				data = getData(columns, rows);
+
+				var container = document.getElementById(targetID);
+				var intensitymap = new google.visualization.IntensityMap(container);
+				intensitymap.draw(data, options);
+			}
+
+			function drawScatterChart(targetID, columns, rows, options) {
+				data = getData(columns, rows);
+
+				var container = document.getElementById(targetID);
+				var scatterchart = new google.visualization.ScatterChart(container);
+				scatterchart.draw(data, options);
+			}
+
+			function getData(columns, rows) {
+				var data = new google.visualization.DataTable();
+
+				for(x in columns) {
+					data.addColumn(columns[x], x);
+				}
+
+				data.addRows(rows);
+				return data;
+			}
+
+			google.setOnLoadCallback(function() { calledBack = true; });
+		</script>
+	</head>
+	<body>
+		<div id='graphs'></div>
+	</body>
+</html>
