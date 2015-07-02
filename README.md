@@ -1,4 +1,4 @@
-# AndroidChartView
+# android-chart-view
 This is some code that I wrote back in 2012. I initially put it on Google Code.
 
 This package allows you to utilise ChartView (a subclass of WebView) in your Android application. You can call methods on a ChartView object to easily add data to the charts of the ChartView.
